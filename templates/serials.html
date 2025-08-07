@@ -1,0 +1,30 @@
+<!DOCTYPE html>
+<html lang="uk">
+<head>
+  <meta charset="UTF-8">
+  <title>Серійні номери по документу {{ doc_id }}</title>
+  <meta name="viewport" content="width=device-width, initial-scale=1">
+  <style>
+    body { font-family: sans-serif; padding: 1em; }
+    textarea { width: 100%; height: 300px; font-size: 16px; margin-bottom: 1em; }
+    button { padding: 10px 20px; font-size: 16px; }
+  </style>
+</head>
+<body>
+  <h3>список</h3>
+
+  <textarea id="serials" readonly>{{ serials | join('\n') }}</textarea>
+
+  <button onclick="copySerials()">Скопіювати</button>
+
+  <script>
+    function copySerials() {
+      const textarea = document.getElementById('serials');
+      textarea.select();
+      textarea.setSelectionRange(0, 99999); // для мобільних
+      document.execCommand('copy');
+      alert('Скопійовано!');
+    }
+  </script>
+</body>
+</html>
