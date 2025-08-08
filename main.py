@@ -7,7 +7,7 @@ from dotenv import load_dotenv
 load_dotenv()
 app = Flask(__name__)
 
-__version__ = "1.1.2"
+__version__ = "1.1.3"
 
 local_ip = os.getenv('LOCAL_IP','192.168.10.9')
 port    =  int(os.getenv('PORT',3001))
