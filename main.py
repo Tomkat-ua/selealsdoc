@@ -11,23 +11,26 @@ local_ip = os.getenv('LOCAL_IP','192.168.10.9')
 port    =  int(os.getenv('PORT',3001))
 base_url = str(os.getenv('BASE_URL'))
 
+# @app.route('/')
+# def index():
+#     return 'Index'
+
 @app.route('/')
-def index():
-    return 'Index'
-
-@app.route('/api/serials')
 def serials():
-    url = base_url+'&doc_id=%d&tovar_id=%t'
-    url = url.replace('%d',request.args['d'])
-    url = url.replace('%t',request.args['t'])
-    response = requests.get(url)
-    json_data = json.loads(response.content.decode('utf-8'))
-    # Дістаємо серійні номери
-    serials = [item['TOVAR_SER_NUM'] for item in json_data]
+    d = request.args.get('d')
+    t = request.args.get('t')
+    if d == None or t == None:
+        return 'No req params',200
+    else:
+        url = base_url + '&doc_id=' + str(d) + '&tovar_id=' + str(t)
+        response = requests.get(url)
+        json_data = json.loads(response.content.decode('utf-8'))
+        # Дістаємо серійні номери
+        serials = [item['TOVAR_SER_NUM'] for item in json_data]
 
-    # Формуємо відповідь — кожен номер з нового рядка
-    text_output = '\n'.join(serials)
-    return render_template('serials.html', serials=serials)
+        # Формуємо відповідь — кожен номер з нового рядка
+        text_output = '\n'.join(serials)
+        return render_template('serials.html', serials=serials,d=d,t=t)
 
 
 
